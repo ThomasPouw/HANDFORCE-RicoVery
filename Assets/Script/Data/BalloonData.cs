@@ -1,0 +1,63 @@
+using System.Collections.Generic;
+using HANDFORCE.TCCavy.Aim.Data;
+using Unity.Collections;
+using Unity.Entities;
+using Unity.Mathematics;
+using UnityEngine;
+
+namespace HANDFORCE.TCCavy.Balloon.Data
+{
+    public struct MovingBalloon: IComponentData
+    {
+        //Add Animation Curves
+    }
+    [System.Serializable]
+    public struct BalloonColour: IComponentData
+    {
+        public LaserDirection type;
+    }
+    public enum LaserDirection: byte
+    {
+        //Do not have names due to needing to remember that the balloons can have different colours.
+        //Maybe the = 0 Can be the type of laser that be used...
+        Default = 0x1,
+        Up = 0x2,
+        Right = 0x3,
+        Down = 0x4,
+        Left = 0x5,
+    }
+    [System.Serializable]
+    public struct BalloonSpawn: IComponentData
+    {
+        public int ID;
+        public LaserDirection balloonType;
+        public float3 location;
+        public bool isMoving;
+    }
+    public struct BalloonData: IComponentData
+    {
+        public int ID;
+        public float spawnTime;
+
+    }
+    [System.Serializable]
+    public struct WaveSpawn
+    {
+        public float ID;
+        public float time;
+        public List<BalloonSpawn> balloonSpawns;
+    }
+    public struct WaveSettings: IComponentData
+    {
+        public Entity defaultBalloonEntityToSpawn;
+        public Entity upBalloonEntityToSpawn;
+        public Entity rightBalloonEntityToSpawn;
+        public Entity downBalloonEntityToSpawn;
+        public Entity leftBalloonEntityToSpawn;
+        public short amountOfWaves;
+        public short currentWaves; 
+
+    }
+    public struct WaveRequested: IComponentData, IEnableableComponent{}
+    
+}
