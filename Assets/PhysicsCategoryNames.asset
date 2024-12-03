@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: PhysicsCategoryNames
   m_EditorClassIdentifier: 
   m_CategoryNames:
-  - Radicle
-  - DefaultBalloon
   - UpBalloon
   - RightBalloon
   - DownBalloon
   - LeftBalloon
+  - Reticle
+  - 
   - 
   - 
   - 

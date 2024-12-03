@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-namespace HANDFORCE.TCCavy.Aim.LoopSystem
+namespace HANDFORCE.TCCavy.Aim
 {
     partial struct WeaponAimSystem: ISystem
     {

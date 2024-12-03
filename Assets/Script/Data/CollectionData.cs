@@ -20,23 +20,22 @@ namespace HANDFORCE.TCCavy.Collection.Data
     public struct CursorLocationBuffer: IBufferElementData
     {
         public float timeStamp;
-        public float3 rawMovementAdded;
-        public float3 movementAdded;
+        public float2 rawMovementAdded;
         public bool hasShot;
     }
     [System.Serializable]
     public struct ShootBuffer: IBufferElementData
     {
         public float timeStamp;
-        public float3 locationOfShot;
+        public float2 locationOfShot;
         public LaserDirection balloonColour;
-        public float balloonEntityID;
+        public int balloonEntityID;
     }
     [System.Serializable]
     public struct MissedShootBuffer: IBufferElementData
     {
         public float timeStamp;
-        public float3 locationOfShot;
+        public float2 locationOfShot;
         public LaserDirection laserDirection;
         public ShootBuffer closestByBalloon;
         public ShootBuffer closestByColourBalloon;

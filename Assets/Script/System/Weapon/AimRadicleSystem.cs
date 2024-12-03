@@ -8,7 +8,7 @@ using Unity.Mathematics;
 using Unity.Rendering;
 using Unity.Transforms;
 using UnityEngine.InputSystem;
-namespace HANDFORCE.TCCavy.Aim.LoopSystem
+namespace HANDFORCE.TCCavy.Aim
 {
     partial struct AimRadicleSystem: ISystem
     {

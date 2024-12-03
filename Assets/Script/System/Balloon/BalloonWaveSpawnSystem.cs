@@ -20,7 +20,7 @@ namespace HANDFORCE.TCCavy.Balloon
         private Entity parent;
         protected override void OnCreate()
         {
-            balloonQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<BalloonColour>().Build(ref CheckedStateRef);
+            balloonQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<BalloonData>().Build(ref CheckedStateRef);
         }
 
         protected override void OnUpdate()
@@ -77,6 +77,7 @@ namespace HANDFORCE.TCCavy.Balloon
                     ecb.AddComponent(entity, new BalloonData
                     {
                         ID = entity.Index = balloonSpawn.ID,
+                        type = balloonSpawn.balloonType,
                         spawnTime = timer.Time
                     });
                     /*{
@@ -100,7 +101,7 @@ namespace HANDFORCE.TCCavy.Balloon
 
                 {
                     TimeLeftWave T = SystemAPI.GetSingleton<TimeLeftWave>();
-                    T.timeLeft = balloonWaveBuffer.time;
+                    T.timeLeft = balloonWaveBuffer.waveTime;
                     SystemAPI.SetSingleton<TimeLeftWave>(T); //Leaving in the <T> to make it easier to read. It does not actually need it.
                     waveSettings.currentWaves++;
                     SystemAPI.SetComponentEnabled<WaveRequested>(parent, false); 

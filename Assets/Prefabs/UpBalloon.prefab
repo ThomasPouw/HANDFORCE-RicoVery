@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7611547036535507605}
   - component: {fileID: 6798245831754433271}
   - component: {fileID: 6730739909552318867}
-  - component: {fileID: 8640719620115981254}
   m_Layer: 0
   m_Name: UpBalloon
   m_TagString: Untagged
@@ -66,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fd56192cd81e13d4091abd39e1a2c545, type: 2}
+  - {fileID: -2379149501886173063, guid: a0d02738cea690b4eb4fe6e92cf14837, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -151,11 +150,11 @@ MonoBehaviour:
     m_BelongsToCategories:
       m_Override: 0
       m_Value:
-        Category00: 0
-        Category01: 1
-        Category02: 1
+        Category00: 1
+        Category01: 0
+        Category02: 0
         Category03: 0
-        Category04: 1
+        Category04: 0
         Category05: 0
         Category06: 0
         Category07: 0
@@ -186,11 +185,11 @@ MonoBehaviour:
     m_CollidesWithCategories:
       m_Override: 0
       m_Value:
-        Category00: 1
+        Category00: 0
         Category01: 0
         Category02: 0
         Category03: 0
-        Category04: 0
+        Category04: 1
         Category05: 0
         Category06: 0
         Category07: 0
@@ -231,15 +230,3 @@ MonoBehaviour:
         Tag07: 0
     m_SerializedVersion: 1
   m_SerializedVersion: 1
---- !u!114 &8640719620115981254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5751376234159539567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd4d5cee39dee674cab4122855081338, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

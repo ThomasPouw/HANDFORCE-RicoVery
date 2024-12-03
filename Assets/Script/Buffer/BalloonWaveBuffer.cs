@@ -8,7 +8,7 @@ namespace HANDFORCE.TCCavy.Balloon.Data.Buffer
     public struct BalloonWaveBuffer : IBufferElementData
     {
         public float ID;
-        public float time;
+        public float waveTime;
         public BlobAssetReference<BalloonBlobReference> balloonSpawns;
 
     }

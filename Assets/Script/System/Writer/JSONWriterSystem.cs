@@ -83,7 +83,7 @@ namespace HANDFORCE.TCCavy.Writer.LoopSystem
             {
                 Directory.CreateDirectory(dir);
             }
-            Debug.Log(dir+ fileName);
+            //Debug.Log(dir+ fileName);
             string json = JsonUtility.ToJson(temporaryDatabase, true);
             File.WriteAllText(dir+ fileName, json);
         }

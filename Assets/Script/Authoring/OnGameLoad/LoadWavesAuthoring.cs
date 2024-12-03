@@ -36,7 +36,7 @@ public class LoadWavesAuthoring : MonoBehaviour
                     BBuffer.Add(new BalloonWaveBuffer
                     {
                         ID = authoring.balloonWaveSpawner.waveSpawns[i].ID,
-                        time = authoring.balloonWaveSpawner.waveSpawns[i].time,
+                        waveTime = authoring.balloonWaveSpawner.waveSpawns[i].time,
                         balloonSpawns = blobAssetReference
                     });
                 }

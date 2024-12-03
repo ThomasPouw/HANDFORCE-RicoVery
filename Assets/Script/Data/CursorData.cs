@@ -12,10 +12,6 @@ namespace HANDFORCE.TCCavy.Aim.Data
         public Color TargetColour;
     }
     [System.Serializable]
-    public struct RadicleOnBalloon: IComponentData
-    {
-        public LaserDirection balloonType;
-    }
-    public struct GunBase: IComponentData {}
+    public struct ReticleOnBalloon: IComponentData{}
 
 }

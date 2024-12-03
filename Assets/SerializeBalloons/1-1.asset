@@ -22,6 +22,7 @@ MonoBehaviour:
         x: 2
         y: 4
         z: 0
+      travelTime: 0
       isMoving: 0
     - ID: 1
       balloonType: 2
@@ -29,6 +30,7 @@ MonoBehaviour:
         x: 7
         y: 9
         z: 0
+      travelTime: 0
       isMoving: 1
   - ID: 1
     time: 30
@@ -39,32 +41,37 @@ MonoBehaviour:
         x: 2
         y: 4
         z: 0
+      travelTime: 0
       isMoving: 0
     - ID: 3
-      balloonType: 3
+      balloonType: 2
       location:
         x: 20
         y: 1
         z: 0
+      travelTime: 0
       isMoving: 1
     - ID: 4
-      balloonType: 4
+      balloonType: 8
       location:
         x: -20
         y: 1
         z: 1
+      travelTime: 0
       isMoving: 1
     - ID: 5
-      balloonType: 5
+      balloonType: 4
       location:
         x: 4
         y: 10
         z: 1
+      travelTime: 0
       isMoving: 1
     - ID: 6
-      balloonType: 0
+      balloonType: 1
       location:
         x: 2
         y: -10
         z: 1
+      travelTime: 0
       isMoving: 1

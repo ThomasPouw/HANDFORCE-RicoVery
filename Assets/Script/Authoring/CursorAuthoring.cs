@@ -18,7 +18,7 @@ namespace HANDFORCE.TCCavy.Aim.Authoring
                     NoTargetColour = authoring.noTargetColour,
                     TargetColour = authoring.targetColour,
                 });
-                AddComponent<RadicleOnBalloon>(entity);
+                AddComponent<ReticleOnBalloon>(entity);
             }
         }
     }

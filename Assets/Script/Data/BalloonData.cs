@@ -11,20 +11,16 @@ namespace HANDFORCE.TCCavy.Balloon.Data
     {
         //Add Animation Curves
     }
-    [System.Serializable]
-    public struct BalloonColour: IComponentData
-    {
-        public LaserDirection type;
-    }
-    public enum LaserDirection: byte
+
+    public enum LaserDirection: uint
     {
         //Do not have names due to needing to remember that the balloons can have different colours.
         //Maybe the = 0 Can be the type of laser that be used...
-        Default = 0x1,
-        Up = 0x2,
-        Right = 0x3,
-        Down = 0x4,
-        Left = 0x5,
+        Default = 1 << 5,
+        Up = 1 << 0,
+        Right = 1 << 1,
+        Down = 1 << 2,
+        Left = 1 << 3,
     }
     [System.Serializable]
     public struct BalloonSpawn: IComponentData
@@ -32,11 +28,14 @@ namespace HANDFORCE.TCCavy.Balloon.Data
         public int ID;
         public LaserDirection balloonType;
         public float3 location;
+        //public List<float3> checkPoint;
+        public float travelTime;
         public bool isMoving;
     }
     public struct BalloonData: IComponentData
     {
         public int ID;
+        public LaserDirection type;
         public float spawnTime;
 
     }
