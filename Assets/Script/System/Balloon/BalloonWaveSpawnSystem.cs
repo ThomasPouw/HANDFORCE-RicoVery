@@ -2,11 +2,9 @@ using System;
 using HANDFORCE.TCCavy.Balloon.Data;
 using HANDFORCE.TCCavy.Balloon.Data.Buffer;
 using HANDFORCE.TCCavy.General.Data;
-using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -18,20 +16,36 @@ namespace HANDFORCE.TCCavy.Balloon
         public static Action GameClear;
         private EntityQuery balloonQuery;
         private Entity parent;
+        private World transferWorld;
         protected override void OnCreate()
         {
             balloonQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<BalloonData>().Build(ref CheckedStateRef);
+            //CheckedStateRef.RequireForUpdate<BalloonWaveBuffer>();
+            CheckedStateRef.RequireForUpdate<WaveSettings>();
         }
 
         protected override void OnUpdate()
         {
+            if(transferWorld == null)
+            {
+                foreach(World world in World.All)
+                {
+                    Debug.Log(World.Name);
+                    if(world.Name == "TransferDataWorld")
+                    {
+                        transferWorld = world;
+                    }
+                }
+            }
             
             if(parent == Entity.Null)
                 parent = SystemAPI.GetSingletonEntity<WaveSettings>();
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
+            Debug.Log(transferWorld);
             if(balloonQuery.IsEmpty || SystemAPI.IsComponentEnabled<WaveRequested>(parent))
             {
-                DynamicBuffer<BalloonWaveBuffer> DynaBalloonWave = SystemAPI.GetSingletonBuffer<BalloonWaveBuffer>();
+                Debug.Log(transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer)));
+                transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer)).TryGetSingletonBuffer<BalloonWaveBuffer>(out DynamicBuffer<BalloonWaveBuffer> DynaBalloonWave);
                 WaveSettings waveSettings = SystemAPI.GetSingleton<WaveSettings>();
                 if(DynaBalloonWave.Length <= waveSettings.currentWaves)
                 {

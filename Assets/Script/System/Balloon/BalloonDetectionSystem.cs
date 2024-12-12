@@ -24,6 +24,7 @@ namespace HANDFORCE.TCCavy.Aim
             //RadicleOnBalloonLookUp = SystemAPI.GetComponentLookup<RadicleOnBalloon>();
             //BalloonColourLookUp = SystemAPI.GetComponentLookup<BalloonColour>();
             state.RequireForUpdate<RawControllerInput>();
+            state.RequireForUpdate<BackTriggerField>();
         }
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
@@ -89,7 +90,6 @@ namespace HANDFORCE.TCCavy.Aim
                     float closestHitDistance = 0;
                     ShootBuffer closestHitColouredBalloon = default;
                     float closestColouredDistance = 0;
-
                     {
                         PhysicsWorld physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().PhysicsWorld;
                         //Calc the closestByBalloon and closestByColourBalloon
@@ -106,7 +106,7 @@ namespace HANDFORCE.TCCavy.Aim
                         PointDistanceInput closestColouredBalloon = new PointDistanceInput
                         {
                             Position = transform.Position,
-                            MaxDistance = 100,
+                            MaxDistance = 500,
                             Filter = new CollisionFilter
                             {
                                 CollidesWith = (uint)rawInput.laserDirection,

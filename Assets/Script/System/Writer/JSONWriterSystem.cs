@@ -9,6 +9,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace HANDFORCE.TCCavy.Writer.LoopSystem
 {
@@ -27,7 +28,13 @@ namespace HANDFORCE.TCCavy.Writer.LoopSystem
             ecb.SetBuffer<ShootBuffer>(entity);
             ecb.SetBuffer<CursorLocationBuffer>(entity);
             ecb.SetBuffer<BalloonCollectionBuffer>(entity);
-            tempDatabase = new TemporaryDatabase();
+            tempDatabase = new TemporaryDatabase()
+            {
+                missedShots = new List<MissedShootBuffer>(),
+                shots = new List<ShootBuffer>(),
+                cursorLocations = new List<CursorLocationBuffer>(),
+                balloonCollection = new List<BalloonCollectionBuffer>(),
+            };
 
             state.RequireForUpdate<MissedShootBuffer>();
             state.RequireForUpdate<ShootBuffer>();
@@ -83,7 +90,6 @@ namespace HANDFORCE.TCCavy.Writer.LoopSystem
             {
                 Directory.CreateDirectory(dir);
             }
-            //Debug.Log(dir+ fileName);
             string json = JsonUtility.ToJson(temporaryDatabase, true);
             File.WriteAllText(dir+ fileName, json);
         }

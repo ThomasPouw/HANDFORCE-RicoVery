@@ -12,6 +12,7 @@ namespace HANDFORCE.TCCavy.Aim
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
+            state.RequireForUpdate<AimRadicle>();
         }
         [BurstCompile]
         public void OnUpdate(ref SystemState state)

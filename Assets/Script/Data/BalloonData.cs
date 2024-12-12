@@ -53,7 +53,6 @@ namespace HANDFORCE.TCCavy.Balloon.Data
         public Entity rightBalloonEntityToSpawn;
         public Entity downBalloonEntityToSpawn;
         public Entity leftBalloonEntityToSpawn;
-        public short amountOfWaves;
         public short currentWaves; 
 
     }

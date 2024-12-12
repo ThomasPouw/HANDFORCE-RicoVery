@@ -15,11 +15,31 @@ public class SettingsController : MonoBehaviour
 
     private EntityManager _entityManager;
     private Entity _entity;
-    private IEnumerator Start()
+    private void OnEnable()
     {
-        _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        yield return new WaitForSeconds(0.2f);
-        _entity = _entityManager.CreateEntityQuery(typeof(SettingsData)).GetSingletonEntity();
+        foreach(World world in World.All)
+        {
+            Debug.Log(world.Name);
+            if(world.Name == "TransferDataWorld")
+            {
+                _entityManager = world.EntityManager;
+            }
+        }
+        if(_entityManager.CreateEntityQuery(typeof(SettingsData)).CalculateEntityCount() == 0)
+        {
+            _entity = _entityManager.CreateEntity(typeof(SettingsData));
+            _entityManager.SetComponentData<SettingsData>(_entity, new SettingsData
+            {
+                inverseX = false,
+                inverseY = false,
+                joystickSensitivityX = 1,
+                joystickSensitivityY = 1,
+            });
+        }
+        else{
+            _entity = _entityManager.CreateEntityQuery(typeof(SettingsData)).GetSingletonEntity();
+        }
+        //yield return new WaitForSeconds(0.2f);
         slider_X.onValueChanged.AddListener(SensitivityX);
         slider_Y.onValueChanged.AddListener(SensitivityY);
         inverse_X.onValueChanged.AddListener(InverseControlsX);

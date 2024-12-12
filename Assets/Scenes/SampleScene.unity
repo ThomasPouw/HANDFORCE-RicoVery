@@ -700,6 +700,7 @@ GameObject:
   - component: {fileID: 144265161}
   - component: {fileID: 144265164}
   - component: {fileID: 144265163}
+  - component: {fileID: 144265165}
   m_Layer: 5
   m_Name: Result Screen
   m_TagString: Untagged
@@ -770,6 +771,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144265160}
   m_CullTransparentMesh: 1
+--- !u!114 &144265165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144265160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933c4f824b1755146b2852da48c54e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultBalloonText: {fileID: 182390691}
+  rightBalloonText: {fileID: 760335972}
+  downBalloonText: {fileID: 1396966363}
+  leftBalloonText: {fileID: 1322827640}
+  upBalloonText: {fileID: 689337731}
+  defaultAccuracyText: {fileID: 2127122372}
+  colouredAccuracyText: {fileID: 285407194}
+  timerText: {fileID: 748517580}
 --- !u!1 &145533946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,7 +1125,7 @@ GameObject:
   - component: {fileID: 182390692}
   - component: {fileID: 182390691}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: 'default Balloon Text '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1465,7 +1486,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 505016630}
   m_Direction: 2
   m_Value: 1.0000004
-  m_Size: 0.8317975
+  m_Size: 0.8317974
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1574,6 +1595,7 @@ GameObject:
   - component: {fileID: 241033954}
   - component: {fileID: 241033958}
   - component: {fileID: 241033959}
+  - component: {fileID: 241033960}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1697,7 +1719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424b6720ff5999446843ba414e58a907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CursorMode: 1
+  m_CursorMode: 0
   m_CursorGraphic: {fileID: 2021711700}
   m_CursorTransform: {fileID: 2021711699}
   m_CursorSpeed: 1000
@@ -1802,6 +1824,19 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -8392374121953087527, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+--- !u!114 &241033960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241033953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f32c302a674bd548b854bc7d4cdacec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasRectTransform: {fileID: 241033957}
 --- !u!1 &250758071
 GameObject:
   m_ObjectHideFlags: 0
@@ -4383,6 +4418,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 819170223}
   - {fileID: 412179825}
   - {fileID: 110721977}
   - {fileID: 318503000}
@@ -4405,7 +4441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: bcc6f10902e14ce4d8d6c532fd0b834a, type: 2}
   m_Color: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -5437,7 +5473,7 @@ GameObject:
   - component: {fileID: 689337732}
   - component: {fileID: 689337731}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: 'up Balloon Text '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5845,7 +5881,7 @@ GameObject:
   - component: {fileID: 760335973}
   - component: {fileID: 760335972}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: right Balloon Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6296,6 +6332,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816278773}
+  m_CullTransparentMesh: 1
+--- !u!1 &819170222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 819170223}
+  - component: {fileID: 819170225}
+  - component: {fileID: 819170224}
+  m_Layer: 5
+  m_Name: Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &819170223
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819170222}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.10000002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 527634082}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.068, y: 1}
+  m_AnchoredPosition: {x: 1.1711426, y: -0.020080566}
+  m_SizeDelta: {x: 1.2299805, y: -0.039978027}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &819170224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819170222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 5a4922f364683e749850791e5b7e0cf8, type: 2}
+  m_Color: {r: 0.5188679, g: 0.37045306, b: 0.16887683, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &819170225
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819170222}
   m_CullTransparentMesh: 1
 --- !u!1 &832575517
 GameObject:
@@ -8532,7 +8643,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 98.65
+  m_fontSize: 98.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9663,7 +9774,7 @@ GameObject:
   - component: {fileID: 1322827641}
   - component: {fileID: 1322827640}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: 'left Balloon Text '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10435,7 +10546,7 @@ GameObject:
   - component: {fileID: 1396966364}
   - component: {fileID: 1396966363}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: 'down Balloon Text '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11340,7 +11451,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1472499841}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 241033958}
+        m_TargetAssemblyTypeName: MenuButtonsController, Assembly-CSharp
+        m_MethodName: BackToHomeMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1472499841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15879,7 +16002,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 76.6
+  m_fontSize: 76.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

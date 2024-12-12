@@ -1,20 +1,21 @@
 using System.Collections.Generic;
 using HANDFORCE.TCCavy.Collection.Data;
+using Unity.Collections;
+using Unity.Entities;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TemporaryDatabase", menuName = "Scriptable Objects/TemporaryDatabase")]
-public class TemporaryDatabase : ScriptableObject
+public struct TemporaryDatabase
 {
     public List<ShootBuffer> shots;
     public List<MissedShootBuffer> missedShots;
     public List<CursorLocationBuffer> cursorLocations;
     public List<BalloonCollectionBuffer> balloonCollection;
-    public TemporaryDatabase()
+    /*public TemporaryDatabase()
     {
-        shots = new List<ShootBuffer>();
-        missedShots = new List<MissedShootBuffer>();
-        cursorLocations = new List<CursorLocationBuffer>();
+        shots = new NativeList<ShootBuffer>();
+        missedShots = new NativeList<MissedShootBuffer>();
+        cursorLocations = new NativeList<CursorLocationBuffer>();
         balloonCollection = new List<BalloonCollectionBuffer>();
 
-    }
+    }*/
 }

@@ -1,9 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.UI;
 
-public class test2 : MonoBehaviour
-{
+public class VirtualMouseUI : MonoBehaviour {
+
+
     [SerializeField] private RectTransform canvasRectTransform;
 
 
@@ -26,4 +29,5 @@ public class test2 : MonoBehaviour
         virtualMousePosition.y = Mathf.Clamp(virtualMousePosition.y, 0f, Screen.height);
         InputState.Change(virtualMouseInput.virtualMouse.position, virtualMousePosition);
     }
+
 }

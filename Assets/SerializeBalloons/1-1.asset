@@ -75,3 +75,4 @@ MonoBehaviour:
         z: 1
       travelTime: 0
       isMoving: 1
+  SceneNumber: 1

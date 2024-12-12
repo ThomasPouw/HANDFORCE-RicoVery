@@ -3,6 +3,7 @@ using HANDFORCE.TCCavy.Balloon;
 using HANDFORCE.TCCavy.General.Data;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuButtonsController : MonoBehaviour
 {
@@ -70,7 +71,8 @@ public class MenuButtonsController : MonoBehaviour
     }
     public void BackToHomeMenu()
     {
-        //_entityManager.SetComponentEnabled<Paused>(_entity, false);
+        _entityManager.SetComponentEnabled<Paused>(_entity, true);
+        SceneManager.LoadScene(0);
         //gameObject.SetActive(false);
         //Enable the game cursor. (As UI has a diffrent cursor then ingame.)
     }

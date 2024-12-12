@@ -11,7 +11,7 @@ namespace HANDFORCE.TCCavy.Collection.Data
     public struct BalloonCollectionBuffer: IBufferElementData
     {
         public float timeStamp;
-        public float balloonEntityID;
+        public int balloonEntityID;
         public LaserDirection balloonColour;
         public bool isMovingBalloon;
         public float spawningTimestamp;

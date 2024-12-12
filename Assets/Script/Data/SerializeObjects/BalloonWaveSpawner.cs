@@ -6,4 +6,5 @@ using UnityEngine;
 public class BalloonWaveSpawner : ScriptableObject
 {
     public List<WaveSpawn> waveSpawns;
+    public short SceneNumber = 1;
 }

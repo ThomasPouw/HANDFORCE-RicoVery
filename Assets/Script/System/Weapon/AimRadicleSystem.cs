@@ -1,28 +1,44 @@
+
 using HANDFORCE.TCCavy.Aim.Data;
 using HANDFORCE.TCCavy.Collection.Data;
 using HANDFORCE.TCCavy.Controller.Data;
 using HANDFORCE.TCCavy.General.Data;
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Rendering;
 using Unity.Transforms;
-using UnityEngine.InputSystem;
 namespace HANDFORCE.TCCavy.Aim
 {
-    partial struct AimRadicleSystem: ISystem
+    [RequireMatchingQueriesForUpdate]
+    public partial class AimRadicleSystem : SystemBase
+    //Change thi to SystemBase
     {
+        private World transferWorld;
         [BurstCompile]
-        public void OnCreate(ref SystemState state)
+        protected override void OnCreate()
         {
 
-            state.RequireForUpdate<RawControllerInput>();
+            CheckedStateRef.RequireForUpdate<RawControllerInput>();
+            CheckedStateRef.RequireForUpdate<BackTriggerField>();
         }
         [BurstCompile]
-        public void OnUpdate(ref SystemState state)
+        protected override void OnUpdate()
         {
+            if(transferWorld == null)
+            {
+                foreach(World world in World.All)
+                {
+                    if(world.Name == "TransferDataWorld")
+                    {
+                        transferWorld = world;
+                    }
+                }
+            }
+            SettingsData settingsData = transferWorld.EntityManager.CreateEntityQuery(typeof(SettingsData)).GetSingleton<SettingsData>();
+
             RawControllerInput rawInput = SystemAPI.GetSingleton<RawControllerInput>();
-            SettingsData settingsData = SystemAPI.GetSingleton<SettingsData>();
             Entity backEntity = SystemAPI.GetSingletonEntity<BackTriggerField>();
             WorldRenderBounds backGroundFieldBounds = SystemAPI.GetComponent<WorldRenderBounds>(backEntity);
             Entity timerEntity = SystemAPI.GetSingletonEntity<TimeLeftWave>();
@@ -32,18 +48,24 @@ namespace HANDFORCE.TCCavy.Aim
                 {
                     float3 pos = localTransform.ValueRW.Position + (new float3(rawInput.cursorPosition.x, rawInput.cursorPosition.y, 0)* settingsData.GetSentitivity3D());
                     pos = math.clamp(pos, backGroundFieldBounds.Value.Min, backGroundFieldBounds.Value.Max);
-                    float3 changedPos = pos - localTransform.ValueRW.Position;
+                    pos = (int3)(pos * new float3(1000.0f)) / new float3(1000.0f);
                     localTransform.ValueRW.Position = pos;
 
-                    /*DynamicBuffer<CursorLocationBuffer> CLBuffer = SystemAPI.GetSingletonBuffer<CursorLocationBuffer>();
-                    Timer time = SystemAPI.GetSingleton<Timer>();
-                    CLBuffer.Add(new CursorLocationBuffer
+                    if((rawInput.oldShoot != rawInput.shoot || !rawInput.oldCursorPosition.Equals(pos.xy)))
                     {
-                        timeStamp = time.Time,
-                        rawMovementAdded = new float3(rawInput.cursorPosition.x, rawInput.cursorPosition.y, 0),
-                        movementAdded = changedPos,
-                        hasShot = rawInput.shoot
-                    });*/
+                        DynamicBuffer<CursorLocationBuffer> CLBuffer = SystemAPI.GetSingletonBuffer<CursorLocationBuffer>();
+                        Timer time = SystemAPI.GetSingleton<Timer>();
+                        CLBuffer.Add(new CursorLocationBuffer
+                        {
+                            timeStamp = time.Time,
+                            rawMovementAdded = pos.xy,
+                            hasShot = rawInput.shoot
+                        });
+                    };
+                    rawInput.oldShoot = rawInput.shoot;
+                    rawInput.oldCursorPosition = pos.xy;
+                    SystemAPI.SetSingleton<RawControllerInput>(rawInput);
+
                
                     //Mouse.current.WarpCursorPosition(new float2(localTransform.ValueRO.Position.x, localTransform.ValueRO.Position.z));
                 }

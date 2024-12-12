@@ -36,14 +36,8 @@ public partial class GameInputSystem : SystemBase, PlayerInput_Mapping.IJoyStick
     {
         if (m_PlayerMovementInputQuery.CalculateEntityCount() == 0)
         {
-            Entity entity = EntityManager.CreateEntity(typeof(RawControllerInput), typeof(SettingsData));
-            EntityManager.SetComponentData<SettingsData>(entity, new SettingsData
-            {
-                inverseX = false,
-                inverseY = false,
-                joystickSensitivityX = 1,
-                joystickSensitivityY = 1,
-            });
+            Entity entity = EntityManager.CreateEntity(typeof(RawControllerInput));
+            
         }
         if(m_PlayerMovementInputQuery.GetSingleton<RawControllerInput>().laserDirection != m_LaserDirection)
         {
