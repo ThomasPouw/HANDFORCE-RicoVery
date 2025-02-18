@@ -29,8 +29,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5751376234159539567}
-  m_Mesh: {fileID: -462981019419857548, guid: 6990e19aa91db4340b6df5c07e63ecee, type: 3}
+  m_Mesh: {fileID: -462981019419857548, guid: f2835199b40f5a84aa9cec4f9fa8c8f3, type: 3}
 --- !u!23 &6798245831754433271
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6491832042631629833, guid: a0d02738cea690b4eb4fe6e92cf14837, type: 3}
+  - {fileID: 2100000, guid: 112fcc509a7a7934ab875954c27d5ccb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,12 +102,12 @@ MonoBehaviour:
   m_ShapeType: 1
   m_PrimitiveCenter:
     x: 0
-    y: 0.06718707
+    y: 0
     z: 0
   m_PrimitiveSize:
-    x: 3.2966704
-    y: 3.2966704
-    z: 4.3471
+    x: 0.035024084
+    y: 0.035024084
+    z: 0.05114251
   m_PrimitiveOrientation:
     Value:
       x: -90
@@ -115,15 +115,15 @@ MonoBehaviour:
       z: -90
     RotationOrder: 4
   m_Capsule:
-    Height: 4.3471
-    Radius: 1.6483352
+    Height: 0.05114251
+    Radius: 0.017512042
     Axis: 2
   m_Cylinder:
-    Height: 4.3471
-    Radius: 1.6483352
+    Height: 0.05114251
+    Radius: 0.017512042
     Axis: 2
   m_CylinderSideCount: 20
-  m_SphereRadius: 2.17355
+  m_SphereRadius: 0.025571255
   m_MinimumSkinnedVertexWeight: 0.13
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.047106795
@@ -152,8 +152,8 @@ MonoBehaviour:
       m_Value:
         Category00: 0
         Category01: 0
-        Category02: 0
-        Category03: 1
+        Category02: 1
+        Category03: 0
         Category04: 0
         Category05: 0
         Category06: 0

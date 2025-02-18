@@ -34,7 +34,7 @@ public class ResultScreenUI : MonoBehaviour
         EntityManager _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         //yield return new WaitForSeconds(0.2f);
         Timer timer =_entityManager.CreateEntityQuery(typeof(Timer), typeof(TimeLeftWave)).GetSingleton<Timer>();
-        Debug.Log(JSONWriterSystem.tempDatabase.cursorLocations.Count());
+        //Debug.Log(JSONWriterSystem.tempDatabase.cursorLocations.Count());
         DynamicBuffer<BalloonWaveBuffer> balloonWavesBuffer = transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer)).GetSingletonBuffer<BalloonWaveBuffer>();
         SetTimeText(timer);
         SetAccuracyTexts(JSONWriterSystem.tempDatabase.missedShots, balloonWavesBuffer);

@@ -7,10 +7,7 @@ using UnityEngine;
 
 namespace HANDFORCE.TCCavy.Balloon.Data
 {
-    public struct MovingBalloon: IComponentData
-    {
-        //Add Animation Curves
-    }
+
 
     public enum LaserDirection: uint
     {
@@ -23,14 +20,23 @@ namespace HANDFORCE.TCCavy.Balloon.Data
         Left = 1 << 3,
     }
     [System.Serializable]
-    public struct BalloonSpawn: IComponentData
+    public struct BalloonSpawnObject
+    {
+        public int ID;
+        public LaserDirection balloonType;
+        public float3 location;
+        public List<BalloonLocationPath> startPath;
+        public List<BalloonLocationPath> movingPath;
+    }
+    [System.Serializable]
+    public struct BalloonSpawnEntity: IComponentData
     {
         public int ID;
         public LaserDirection balloonType;
         public float3 location;
         //public List<float3> checkPoint;
-        public float travelTime;
-        public bool isMoving;
+        public short startPathIDNumber;
+        public short movingPathIDNumber;
     }
     public struct BalloonData: IComponentData
     {
@@ -40,11 +46,18 @@ namespace HANDFORCE.TCCavy.Balloon.Data
 
     }
     [System.Serializable]
-    public struct WaveSpawn
+    public struct WaveSpawnObject
     {
         public float ID;
         public float time;
-        public List<BalloonSpawn> balloonSpawns;
+        public List<BalloonSpawnObject> balloonSpawns;
+    }
+    [System.Serializable]
+    public struct WaveSpawnEntity
+    {
+        public float ID;
+        public float time;
+        public List<BalloonSpawnEntity> balloonSpawns;
     }
     public struct WaveSettings: IComponentData
     {
@@ -56,6 +69,19 @@ namespace HANDFORCE.TCCavy.Balloon.Data
         public short currentWaves; 
 
     }
-    public struct WaveRequested: IComponentData, IEnableableComponent{}
+    public struct WaveRequested: IComponentData, IEnableableComponent{} 
+    [System.Serializable]
+    public struct BalloonLocationPath
+    {
+        public Vector3 endLocation;
+        public float timeBetweenLocations; 
+    }
+    public struct BalloonTimer: IComponentData
+    {
+        public float3 endLocation;
+        public float3 startLocation;
+        public float currentTime;
+        public float timeBetweenLocations; //End timer
+    }
     
 }

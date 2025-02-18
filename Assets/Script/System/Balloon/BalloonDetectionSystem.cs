@@ -62,7 +62,7 @@ namespace HANDFORCE.TCCavy.Aim
                             timeStamp = timer.Time,
                             spawningTimestamp = balloonData.spawnTime,
                             balloonColour = balloonData.type,
-                            isMovingBalloon = SystemAPI.HasComponent<MovingBalloon>(balloonEntity)
+                            isMovingBalloon = SystemAPI.HasComponent<BalloonTimer>(balloonEntity)
                         });
                         //get LaserDirection from laser
                         SBuffer.Add(new ShootBuffer

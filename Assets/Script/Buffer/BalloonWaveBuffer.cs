@@ -10,10 +10,18 @@ namespace HANDFORCE.TCCavy.Balloon.Data.Buffer
         public float ID;
         public float waveTime;
         public BlobAssetReference<BalloonBlobReference> balloonSpawns;
-
+    }
+    public struct BalloonMovementBuffer: IBufferElementData
+    {
+        public float ID;
+        public BlobAssetReference<BalloonMovementBlobReference> balloonPath;
     }
     public struct BalloonBlobReference : IComponentData
     {
-        public BlobArray<BalloonSpawn> balloonSpawns;
+        public BlobArray<BalloonSpawnEntity> balloonSpawns;
+    }
+    public struct BalloonMovementBlobReference : IComponentData
+    {
+        public BlobArray<BalloonLocationPath> balloonPath;
     }
 }

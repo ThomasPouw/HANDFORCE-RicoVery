@@ -13,25 +13,6 @@ MonoBehaviour:
   m_Name: 1-1
   m_EditorClassIdentifier: 
   waveSpawns:
-  - ID: 0
-    time: 30
-    balloonSpawns:
-    - ID: 0
-      balloonType: 1
-      location:
-        x: 2
-        y: 4
-        z: 0
-      travelTime: 0
-      isMoving: 0
-    - ID: 1
-      balloonType: 2
-      location:
-        x: 7
-        y: 9
-        z: 0
-      travelTime: 0
-      isMoving: 1
   - ID: 1
     time: 30
     balloonSpawns:
@@ -41,38 +22,89 @@ MonoBehaviour:
         x: 2
         y: 4
         z: 0
-      travelTime: 0
-      isMoving: 0
+      startPath:
+      - endLocation: {x: 252, y: 145, z: 266}
+        timeBetweenLocations: 4
+      movingPath:
+      - endLocation: {x: 345, y: 14, z: 13}
+        timeBetweenLocations: 3
+      - endLocation: {x: 0, y: 0, z: 0}
+        timeBetweenLocations: 0
     - ID: 3
       balloonType: 2
       location:
         x: 20
         y: 1
         z: 0
-      travelTime: 0
-      isMoving: 1
+      startPath: []
+      movingPath: []
     - ID: 4
       balloonType: 8
       location:
         x: -20
         y: 1
         z: 1
-      travelTime: 0
-      isMoving: 1
+      startPath:
+      - endLocation: {x: 35, y: 35, z: 25}
+        timeBetweenLocations: 0
+      movingPath: []
     - ID: 5
       balloonType: 4
       location:
         x: 4
         y: 10
         z: 1
-      travelTime: 0
-      isMoving: 1
+      startPath: []
+      movingPath: []
     - ID: 6
       balloonType: 1
       location:
         x: 2
         y: -10
         z: 1
-      travelTime: 0
-      isMoving: 1
+      startPath: []
+      movingPath: []
+  - ID: 1
+    time: 30
+    balloonSpawns:
+    - ID: 2
+      balloonType: 2
+      location:
+        x: 2
+        y: 4
+        z: 0
+      startPath: []
+      movingPath: []
+    - ID: 3
+      balloonType: 2
+      location:
+        x: 20
+        y: 1
+        z: 0
+      startPath: []
+      movingPath: []
+    - ID: 4
+      balloonType: 8
+      location:
+        x: -20
+        y: 1
+        z: 1
+      startPath: []
+      movingPath: []
+    - ID: 5
+      balloonType: 4
+      location:
+        x: 4
+        y: 10
+        z: 1
+      startPath: []
+      movingPath: []
+    - ID: 6
+      balloonType: 1
+      location:
+        x: 2
+        y: -10
+        z: 1
+      startPath: []
+      movingPath: []
   SceneNumber: 1

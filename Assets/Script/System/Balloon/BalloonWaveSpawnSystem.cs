@@ -41,14 +41,17 @@ namespace HANDFORCE.TCCavy.Balloon
             if(parent == Entity.Null)
                 parent = SystemAPI.GetSingletonEntity<WaveSettings>();
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
-            Debug.Log(transferWorld);
+           // Debug.Log(transferWorld);
             if(balloonQuery.IsEmpty || SystemAPI.IsComponentEnabled<WaveRequested>(parent))
             {
-                Debug.Log(transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer)));
+                //Debug.Log(transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer)));
                 transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer)).TryGetSingletonBuffer<BalloonWaveBuffer>(out DynamicBuffer<BalloonWaveBuffer> DynaBalloonWave);
-                WaveSettings waveSettings = SystemAPI.GetSingleton<WaveSettings>();
+                SystemAPI.TryGetSingleton<WaveSettings>(out WaveSettings waveSettings);
+                Debug.Log(waveSettings);
+                Debug.Log(DynaBalloonWave.Length +" "+ waveSettings.currentWaves);
                 if(DynaBalloonWave.Length <= waveSettings.currentWaves)
                 {
+                    Debug.Log("Entered Result here");
                     SystemAPI.SetComponentEnabled<WaveRequested>(parent, false); 
                     GameClear?.Invoke();
                     return;
@@ -56,9 +59,11 @@ namespace HANDFORCE.TCCavy.Balloon
                 BalloonWaveBuffer balloonWaveBuffer = DynaBalloonWave[waveSettings.currentWaves];
                 LocalTransform localTransform = SystemAPI.GetComponent<LocalTransform>(parent);
                 Timer timer = SystemAPI.GetSingleton<Timer>();
+                Debug.Log(balloonWaveBuffer.balloonSpawns.Value.balloonSpawns.Length);
                 for (int i = 0; i < balloonWaveBuffer.balloonSpawns.Value.balloonSpawns.Length; i++)
                 {
-                    BalloonSpawn balloonSpawn = balloonWaveBuffer.balloonSpawns.Value.balloonSpawns[i];
+                    Debug.Log(balloonWaveBuffer.balloonSpawns.Value.balloonSpawns[i]);
+                    BalloonSpawnEntity balloonSpawn = balloonWaveBuffer.balloonSpawns.Value.balloonSpawns[i];
                     Entity entity = Entity.Null;
                     //Entity entity = ecb.Instantiate(waveSettings.defaultBalloonEntityToSpawn);
                     switch (balloonSpawn.balloonType)
@@ -94,6 +99,7 @@ namespace HANDFORCE.TCCavy.Balloon
                         type = balloonSpawn.balloonType,
                         spawnTime = timer.Time
                     });
+                    ecb.AddComponent<BalloonTimer>(entity);
                     /*{
                         
                         CollisionFilter collisionFilter = new CollisionFilter();
