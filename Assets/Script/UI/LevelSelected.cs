@@ -1,3 +1,4 @@
+using System.Linq;
 using HANDFORCE.TCCavy.Balloon.Data;
 using HANDFORCE.TCCavy.Balloon.Data.Buffer;
 using Unity.Collections;
@@ -52,45 +53,51 @@ public class LevelSelected : MonoBehaviour
                     
                     for (int ii = 0; ii < balloonWaveSpawner.waveSpawns[i].balloonSpawns.Count; ii++)
                     {
-                            if(balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath.Count != 0)
-                            {
-                                ref BalloonMovementBlobReference balloonStartMovement = ref blobBuilder.ConstructRoot<BalloonMovementBlobReference>();
-                                BlobBuilderArray<BalloonLocationPath> balloonMovementBlobArray = blobBuilder.Allocate(ref balloonStartMovement.balloonPath, balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath.Count);
+                        bool moving = false;
+                        if(balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath.Count != 0)
+                        {
+                            ref BalloonMovementBlobReference balloonStartMovement = ref blobBuilder.ConstructRoot<BalloonMovementBlobReference>();
+                            BlobBuilderArray<BalloonLocationPath> balloonMovementBlobArray = blobBuilder.Allocate(ref balloonStartMovement.balloonPath, balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath.Count);
 
-                                for (int start = 0; start < balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath.Count; start++)
-                                {
-                                    balloonMovementBlobArray[start] = balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath[start];
-                                }
-                                BlobAssetReference<BalloonMovementBlobReference> movementBlobAssetReference = blobBuilder.CreateBlobAssetReference<BalloonMovementBlobReference>(Allocator.Persistent);
-                                BMBuffer.Add(new BalloonMovementBuffer
-                                {
-                                    ID = 0,
-                                    balloonPath = movementBlobAssetReference
-                                });
-                            }
-
-                            if(balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].movingPath.Count != 0)
+                            for (int start = 0; start < balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath.Count; start++)
                             {
-                                ref BalloonMovementBlobReference balloonContinueMovement = ref blobBuilder.ConstructRoot<BalloonMovementBlobReference>();
-                                BlobBuilderArray<BalloonLocationPath> balloonContinueBlobArray = blobBuilder.Allocate(ref balloonContinueMovement.balloonPath, balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].movingPath.Count);
-                                for (int con = 0; con < balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].movingPath.Count; con++)
-                                {
-                                    balloonContinueBlobArray[con] = balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].movingPath[con];
-                                }
-                                BlobAssetReference<BalloonMovementBlobReference> movementBlobAssetReference = blobBuilder.CreateBlobAssetReference<BalloonMovementBlobReference>(Allocator.Persistent);
-                                BMBuffer.Add(new BalloonMovementBuffer
-                                {
-                                    ID = 0,
-                                    balloonPath = movementBlobAssetReference
-                                });
+                                balloonMovementBlobArray[start] = balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath[start];
                             }
+                            BlobAssetReference<BalloonMovementBlobReference> movementBlobAssetReference = blobBuilder.CreateBlobAssetReference<BalloonMovementBlobReference>(Allocator.Persistent);
+                                
+                            BMBuffer.Add(new BalloonMovementBuffer
+                            {
+                                ID = BMBuffer.Length,
+                                balloonPath = movementBlobAssetReference
+                            });
+                        }
+                        else{
+                            break;
+                        }
+
+                        if(balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].movingPath.Count != 0)
+                        {
+                            ref BalloonMovementBlobReference balloonContinueMovement = ref blobBuilder.ConstructRoot<BalloonMovementBlobReference>();
+                            BlobBuilderArray<BalloonLocationPath> balloonContinueBlobArray = blobBuilder.Allocate(ref balloonContinueMovement.balloonPath, balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].movingPath.Count);
+                            for (int con = 0; con < balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].movingPath.Count; con++)
+                            {
+                                balloonContinueBlobArray[con] = balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].movingPath[con];
+                            }
+                            BlobAssetReference<BalloonMovementBlobReference> movementBlobAssetReference = blobBuilder.CreateBlobAssetReference<BalloonMovementBlobReference>(Allocator.Persistent);
+                            BMBuffer.Add(new BalloonMovementBuffer
+                            {
+                                ID = BMBuffer.Length,
+                                balloonPath = movementBlobAssetReference
+                            });
+                            moving = true;
+                        }
                         balloonWaveBlobArray[ii] = new BalloonSpawnEntity
                         {
                             ID = balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].ID,
                             balloonType = balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].balloonType,
                             location = balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].location,
-                            startPathIDNumber = 0,
-                            movingPathIDNumber = 0,
+                            startPathIDNumber = (short)(BMBuffer.Length + (moving ? -1 : 0)),
+                            movingPathIDNumber = (short)(moving ? BMBuffer.Length -1 : -1),
                         };
                     }
                     BlobAssetReference<BalloonBlobReference> blobAssetReference = blobBuilder.CreateBlobAssetReference<BalloonBlobReference>(Allocator.Persistent);

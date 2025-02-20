@@ -71,9 +71,9 @@ namespace HANDFORCE.TCCavy.Balloon.Data
     }
     public struct WaveRequested: IComponentData, IEnableableComponent{} 
     [System.Serializable]
-    public struct BalloonLocationPath
+    public struct BalloonLocationPath:IBufferElementData
     {
-        public Vector3 endLocation;
+        public float3 endLocation;
         public float timeBetweenLocations; 
     }
     public struct BalloonTimer: IComponentData

@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 using HANDFORCE.TCCavy.Balloon.Data;
 using HANDFORCE.TCCavy.Balloon.Data.Buffer;
 using HANDFORCE.TCCavy.General.Data;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -17,13 +19,15 @@ namespace HANDFORCE.TCCavy.Balloon
         private EntityQuery balloonQuery;
         private Entity parent;
         private World transferWorld;
+        private int count = 0;
+        [BurstCompile]
         protected override void OnCreate()
         {
             balloonQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<BalloonData>().Build(ref CheckedStateRef);
             //CheckedStateRef.RequireForUpdate<BalloonWaveBuffer>();
             CheckedStateRef.RequireForUpdate<WaveSettings>();
         }
-
+        [BurstCompile]
         protected override void OnUpdate()
         {
             if(transferWorld == null)
@@ -41,13 +45,13 @@ namespace HANDFORCE.TCCavy.Balloon
             if(parent == Entity.Null)
                 parent = SystemAPI.GetSingletonEntity<WaveSettings>();
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
-           // Debug.Log(transferWorld);
-            if(balloonQuery.IsEmpty || SystemAPI.IsComponentEnabled<WaveRequested>(parent))
+            if(balloonQuery.IsEmpty || CheckedStateRef.EntityManager.IsComponentEnabled<WaveRequested>(parent))
             {
-                //Debug.Log(transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer)));
+                count++;
+                
                 transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer)).TryGetSingletonBuffer<BalloonWaveBuffer>(out DynamicBuffer<BalloonWaveBuffer> DynaBalloonWave);
                 SystemAPI.TryGetSingleton<WaveSettings>(out WaveSettings waveSettings);
-                Debug.Log(waveSettings);
+                
                 Debug.Log(DynaBalloonWave.Length +" "+ waveSettings.currentWaves);
                 if(DynaBalloonWave.Length <= waveSettings.currentWaves)
                 {
@@ -57,79 +61,82 @@ namespace HANDFORCE.TCCavy.Balloon
                     return;
                 }
                 BalloonWaveBuffer balloonWaveBuffer = DynaBalloonWave[waveSettings.currentWaves];
+                waveSettings.currentWaves++; 
+                SystemAPI.SetSingleton<WaveSettings>(waveSettings);
                 LocalTransform localTransform = SystemAPI.GetComponent<LocalTransform>(parent);
                 Timer timer = SystemAPI.GetSingleton<Timer>();
                 Debug.Log(balloonWaveBuffer.balloonSpawns.Value.balloonSpawns.Length);
                 for (int i = 0; i < balloonWaveBuffer.balloonSpawns.Value.balloonSpawns.Length; i++)
                 {
-                    Debug.Log(balloonWaveBuffer.balloonSpawns.Value.balloonSpawns[i]);
+                    //Debug.Log(balloonWaveBuffer.balloonSpawns.Value.balloonSpawns[i]);
                     BalloonSpawnEntity balloonSpawn = balloonWaveBuffer.balloonSpawns.Value.balloonSpawns[i];
                     Entity entity = Entity.Null;
                     //Entity entity = ecb.Instantiate(waveSettings.defaultBalloonEntityToSpawn);
                     switch (balloonSpawn.balloonType)
                     {
                         case LaserDirection.Default:
-                            entity = ecb.Instantiate(waveSettings.defaultBalloonEntityToSpawn);
+                            entity = CheckedStateRef.EntityManager.Instantiate(waveSettings.defaultBalloonEntityToSpawn);
                             break;
                         case LaserDirection.Up:
-                            entity = ecb.Instantiate(waveSettings.upBalloonEntityToSpawn);
+                            entity = CheckedStateRef.EntityManager.Instantiate(waveSettings.upBalloonEntityToSpawn);
                             break;
                         case LaserDirection.Right:
-                            entity = ecb.Instantiate(waveSettings.rightBalloonEntityToSpawn);
+                            entity = CheckedStateRef.EntityManager.Instantiate(waveSettings.rightBalloonEntityToSpawn);
                             break;
                         case LaserDirection.Down:
-                            entity = ecb.Instantiate(waveSettings.downBalloonEntityToSpawn);
+                            entity = CheckedStateRef.EntityManager.Instantiate(waveSettings.downBalloonEntityToSpawn);
                             break;
                         case LaserDirection.Left:
-                            entity = ecb.Instantiate(waveSettings.leftBalloonEntityToSpawn);
+                            entity = CheckedStateRef.EntityManager.Instantiate(waveSettings.leftBalloonEntityToSpawn);
                             break;
                         default:
-                            entity = ecb.Instantiate(waveSettings.defaultBalloonEntityToSpawn);
+                            entity = CheckedStateRef.EntityManager.Instantiate(waveSettings.defaultBalloonEntityToSpawn);
                             break;
                     }
                     float3 pos = balloonSpawn.location;
-                    ecb.SetComponent(entity, new LocalTransform
+                    CheckedStateRef.EntityManager.SetName(entity, count.ToString()+" "+balloonSpawn.ID);
+                    CheckedStateRef.EntityManager.SetComponentData(entity, new LocalTransform
                     {
                         Position = new float3(pos.x, pos.y, localTransform.Position.z),
-                        Scale = 1
+                        Scale = 100
                     });
-                    ecb.AddComponent(entity, new BalloonData
+                    CheckedStateRef.EntityManager.AddComponentData(entity, new BalloonData
                     {
                         ID = entity.Index = balloonSpawn.ID,
                         type = balloonSpawn.balloonType,
                         spawnTime = timer.Time
                     });
-                    ecb.AddComponent<BalloonTimer>(entity);
-                    /*{
-                        
-                        CollisionFilter collisionFilter = new CollisionFilter();
-                        collisionFilter.BelongsTo = (uint)0x0;
-                        if(balloonSpawn.balloonType == LaserDirection.Default)
+                    CheckedStateRef.EntityManager.AddComponent<BalloonTimer>(entity);
+                    {
+                        transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonMovementBuffer)).TryGetSingletonBuffer<BalloonMovementBuffer>(out DynamicBuffer<BalloonMovementBuffer> DynaBalloonMove);
+                        DynamicBuffer<BalloonLocationPath> balloonLocationPaths= CheckedStateRef.EntityManager.AddBuffer<BalloonLocationPath>(entity);
+                        for (int ii = 0; ii < DynaBalloonMove.Length; ii++)
                         {
-                            collisionFilter.CollidesWith = (uint)balloonSpawn.balloonType;
+                            if(DynaBalloonMove[ii].ID == balloonWaveBuffer.balloonSpawns.Value.balloonSpawns[i].startPathIDNumber)
+                            {
+                                Debug.Log($"Number {i} with ID {DynaBalloonMove[ii].ID} found the startID! It has length: {DynaBalloonMove[ii].balloonPath.Value.balloonPath.ToArray().Length}");
+                                foreach (BalloonLocationPath path in DynaBalloonMove[ii].balloonPath.Value.balloonPath.ToArray())
+                                {
+                                    balloonLocationPaths.Add(path);
+                                }
+                                //balloonLocationPaths.CopyFrom(DynaBalloonMove[ii].balloonPath.Value.balloonPath.ToArray());
+                                break;
+                            }
                         }
-                        else
-                        {
-                            collisionFilter.CollidesWith = (uint)LaserDirection.Default | (uint)balloonSpawn.balloonType;
-                        }
-                        PhysicsCollider physicsCollider =SystemAPI.GetComponent<PhysicsCollider>(entity);
-                        physicsCollider.Value.Value.SetCollisionFilter(collisionFilter);
-                        SystemAPI.SetComponent<PhysicsCollider>(entity, physicsCollider);
-                    }*/
-                    //ecb.Playback(state.EntityManager);
+                        //balloonLocationPaths.AddRange(DynaBalloonMove);
+                    }
                 }
 
                 {
                     TimeLeftWave T = SystemAPI.GetSingleton<TimeLeftWave>();
                     T.timeLeft = balloonWaveBuffer.waveTime;
                     SystemAPI.SetSingleton<TimeLeftWave>(T); //Leaving in the <T> to make it easier to read. It does not actually need it.
-                    waveSettings.currentWaves++;
-                    SystemAPI.SetComponentEnabled<WaveRequested>(parent, false); 
-                    SystemAPI.SetSingleton<WaveSettings>(waveSettings);
+                    CheckedStateRef.EntityManager.SetComponentEnabled<WaveRequested>(parent, false);
                 }
             }
             ecb.Playback(CheckedStateRef.EntityManager);
             ecb.Dispose();
         }
+            
     }
 }
