@@ -68,7 +68,7 @@ namespace HANDFORCE.TCCavy.Aim
                         SBuffer.Add(new ShootBuffer
                         {
                             timeStamp = timer.Time,
-                            locationOfShot = transform.ValueRO.Position.xy,
+                            locationOfFiring = transform.ValueRO.Position.xy,
                             balloonColour = rawInput.laserDirection,
                             balloonEntityID = balloonData.ID,
                         });
@@ -120,7 +120,7 @@ namespace HANDFORCE.TCCavy.Aim
                             closestHitBalloon = new ShootBuffer
                             {
                                 timeStamp = timer.Time,
-                                locationOfShot = closestHit.Position.xy,
+                                locationOfFiring = closestHit.Position.xy,
                                 balloonColour = data.type,
                                 balloonEntityID = data.ID
                             };
@@ -132,7 +132,7 @@ namespace HANDFORCE.TCCavy.Aim
                             closestHitColouredBalloon = new ShootBuffer
                             {
                                 timeStamp = timer.Time,
-                                locationOfShot = closestColouredHit.Position.xy,
+                                locationOfFiring = closestColouredHit.Position.xy,
                                 balloonColour = data.type,
                                 balloonEntityID = data.ID
                             };
@@ -144,7 +144,7 @@ namespace HANDFORCE.TCCavy.Aim
                     MSBuffer.Add(new MissedShootBuffer
                     {
                         timeStamp = timer.Time,
-                        locationOfShot = transform.Position.xy,
+                        locationOfFiring = transform.Position.xy,
                         laserDirection = rawInput.laserDirection,
                         closestByBalloon = closestHitBalloon,
                         closestByColourBalloon = closestHitColouredBalloon,

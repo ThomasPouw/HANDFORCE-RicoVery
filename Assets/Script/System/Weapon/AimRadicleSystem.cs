@@ -58,8 +58,8 @@ namespace HANDFORCE.TCCavy.Aim
                         CLBuffer.Add(new CursorLocationBuffer
                         {
                             timeStamp = time.Time,
-                            rawMovementAdded = pos.xy,
-                            hasShot = rawInput.shoot
+                            angularMotionAdded = pos.xy,
+                            hasFired = rawInput.shoot
                         });
                     };
                     rawInput.oldShoot = rawInput.shoot;

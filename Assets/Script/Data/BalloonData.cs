@@ -24,7 +24,7 @@ namespace HANDFORCE.TCCavy.Balloon.Data
     {
         public int ID;
         public LaserDirection balloonType;
-        public float3 location;
+        public float2 location;
         public List<BalloonLocationPath> startPath;
         public List<BalloonLocationPath> movingPath;
     }
@@ -33,7 +33,7 @@ namespace HANDFORCE.TCCavy.Balloon.Data
     {
         public int ID;
         public LaserDirection balloonType;
-        public float3 location;
+        public float2 location;
         //public List<float3> checkPoint;
         public short startPathIDNumber;
         public short movingPathIDNumber;
@@ -73,7 +73,7 @@ namespace HANDFORCE.TCCavy.Balloon.Data
     [System.Serializable]
     public struct BalloonLocationPath:IBufferElementData
     {
-        public float3 endLocation;
+        public float2 endLocation;
         public float timeBetweenLocations; 
     }
     public struct BalloonTimer: IComponentData
@@ -82,6 +82,9 @@ namespace HANDFORCE.TCCavy.Balloon.Data
         public float3 startLocation;
         public float currentTime;
         public float timeBetweenLocations; //End timer
+        public short index;
+        public int nextBuffer;
+        public bool hasSwitchedToMoveBuffer;
     }
     
 }
