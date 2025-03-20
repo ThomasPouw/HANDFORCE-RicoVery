@@ -17,7 +17,7 @@ namespace HANDFORCE.TCCavy.Aim
 {
     partial struct BalloonDetectionSystem : ISystem
     {
-
+        static bool missed = false;
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
@@ -34,7 +34,6 @@ namespace HANDFORCE.TCCavy.Aim
             if(rawInput.shoot)
             {
                 Timer timer = SystemAPI.GetSingleton<Timer>();
-                bool missed = true;
                 foreach (var (stateFul, radicleOnBalloon, transform, entity) in SystemAPI.Query<DynamicBuffer<StatefulTriggerEvent>, RefRW<ReticleOnBalloon>, RefRO<LocalTransform>>().WithEntityAccess())
                 {
                     if(stateFul.Length == 0)
@@ -45,7 +44,10 @@ namespace HANDFORCE.TCCavy.Aim
                     if(!(SystemAPI.HasComponent<ReticleOnBalloon>(firstStateful.EntityA) || SystemAPI.HasComponent<ReticleOnBalloon>(firstStateful.EntityB)))
                         continue;
                     if(!(SystemAPI.HasComponent<BalloonData>(firstStateful.EntityA) || SystemAPI.HasComponent<BalloonData>(firstStateful.EntityB)))
+                    {
+                        missed = true;
                         continue;
+                    }
 
                     Entity balloonEntity = SystemAPI.HasComponent<BalloonData>(firstStateful.EntityA) ? firstStateful.EntityA : firstStateful.EntityB;
                     BalloonData balloonData = SystemAPI.GetComponent<BalloonData>(balloonEntity);
@@ -81,86 +83,76 @@ namespace HANDFORCE.TCCavy.Aim
 
                     ecb.DestroyEntity(balloonEntity);
                 }
-                if(missed)
+            }
+            if(missed && !rawInput.shoot)
+            {
+                Timer timer = SystemAPI.GetSingleton<Timer>();
+                Entity entity = SystemAPI.GetSingletonEntity<ReticleOnBalloon>();
+                DynamicBuffer<MissedShootBuffer> MSBuffer = SystemAPI.GetSingletonBuffer<MissedShootBuffer>();
+                LocalTransform transform = SystemAPI.GetComponent<LocalTransform>(entity);
+                ShootBuffer closestHitBalloon = default;
+                float closestHitDistance = 0;
+                ShootBuffer closestHitColouredBalloon = default;
+                float closestColouredDistance = 0;
                 {
-                    Entity entity = SystemAPI.GetSingletonEntity<ReticleOnBalloon>();
-                    DynamicBuffer<MissedShootBuffer> MSBuffer = SystemAPI.GetSingletonBuffer<MissedShootBuffer>();
-                    LocalTransform transform = SystemAPI.GetComponent<LocalTransform>(entity);
-                    ShootBuffer closestHitBalloon = default;
-                    float closestHitDistance = 0;
-                    ShootBuffer closestHitColouredBalloon = default;
-                    float closestColouredDistance = 0;
+                    PhysicsWorld physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().PhysicsWorld;
+                    //Calc the closestByBalloon and closestByColourBalloon
+                    PointDistanceInput closestBalloon = new PointDistanceInput
                     {
-                        PhysicsWorld physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().PhysicsWorld;
-                        //Calc the closestByBalloon and closestByColourBalloon
-                        PointDistanceInput closestBalloon = new PointDistanceInput
+                        Position = transform.Position,
+                        MaxDistance = 500,
+                        Filter = new CollisionFilter
                         {
-                            Position = transform.Position,
-                            MaxDistance = 500,
-                            Filter = new CollisionFilter
-                            {
-                                CollidesWith = 1 << 0 | 1 << 1 | 1 << 2| 1 << 3,
-                                BelongsTo = ~0u
-                            }
-                        };
-                        PointDistanceInput closestColouredBalloon = new PointDistanceInput
-                        {
-                            Position = transform.Position,
-                            MaxDistance = 500,
-                            Filter = new CollisionFilter
-                            {
-                                CollidesWith = (uint)rawInput.laserDirection,
-                                BelongsTo = ~0u
-                            }
-                        };
-                        if(physicsWorld.CalculateDistance(closestBalloon, out DistanceHit closestHit))
-                        {
-                            BalloonData data = SystemAPI.GetComponent<BalloonData>(closestHit.Entity);
-                            closestHitDistance = closestHit.Distance;
-                            closestHitBalloon = new ShootBuffer
-                            {
-                                timeStamp = timer.Time,
-                                locationOfFiring = closestHit.Position.xy,
-                                balloonColour = data.type,
-                                balloonEntityID = data.ID
-                            };
+                            CollidesWith = 1 << 0 | 1 << 1 | 1 << 2| 1 << 3,
+                            BelongsTo = ~0u
                         }
-                        if(physicsWorld.CalculateDistance(closestColouredBalloon, out DistanceHit closestColouredHit))
+                    };
+                    PointDistanceInput closestColouredBalloon = new PointDistanceInput
+                    {
+                        Position = transform.Position,
+                        MaxDistance = 500,
+                        Filter = new CollisionFilter
                         {
-                            BalloonData data = SystemAPI.GetComponent<BalloonData>(closestColouredHit.Entity);
-                            closestColouredDistance= closestColouredHit.Distance;
-                            closestHitColouredBalloon = new ShootBuffer
-                            {
-                                timeStamp = timer.Time,
-                                locationOfFiring = closestColouredHit.Position.xy,
-                                balloonColour = data.type,
-                                balloonEntityID = data.ID
-                            };
+                            CollidesWith = (uint)rawInput.laserDirection,
+                            BelongsTo = ~0u
                         }
-
-
-                        
+                    };
+                    if(physicsWorld.CalculateDistance(closestBalloon, out DistanceHit closestHit))
+                    {
+                        BalloonData data = SystemAPI.GetComponent<BalloonData>(closestHit.Entity);
+                        closestHitDistance = closestHit.Distance;
+                        closestHitBalloon = new ShootBuffer
+                        {
+                            timeStamp = timer.Time,
+                            locationOfFiring = closestHit.Position.xy,
+                            balloonColour = data.type,
+                            balloonEntityID = data.ID
+                        };
                     }
-                    MSBuffer.Add(new MissedShootBuffer
+                    if(physicsWorld.CalculateDistance(closestColouredBalloon, out DistanceHit closestColouredHit))
                     {
-                        timeStamp = timer.Time,
-                        locationOfFiring = transform.Position.xy,
-                        laserDirection = rawInput.laserDirection,
-                        closestByBalloon = closestHitBalloon,
-                        closestByColourBalloon = closestHitColouredBalloon,
-                        closestByBalloonDistance = math.abs(closestHitDistance),
-                        closestByColourBalloonDistance = math.abs(closestColouredDistance)
-                        /*
-                            public float timeStamp;
-                            public float3 locationOfShot;
-                            public LaserDirection laserDirection;
-                            public ShootBuffer closestByBalloon;
-                            public ShootBuffer closestByColourBalloon;
-                            public float closestByBalloonDistance;
-                            public float closestByColourBalloonDistance;
-                        */
-                    });
+                        BalloonData data = SystemAPI.GetComponent<BalloonData>(closestColouredHit.Entity);
+                        closestColouredDistance= closestColouredHit.Distance;
+                        closestHitColouredBalloon = new ShootBuffer
+                        {
+                            timeStamp = timer.Time,
+                            locationOfFiring = closestColouredHit.Position.xy,
+                            balloonColour = data.type,
+                            balloonEntityID = data.ID
+                        };
+                    }   
                 }
+                MSBuffer.Add(new MissedShootBuffer
+                {
+                    timeStamp = timer.Time,
+                    locationOfFiring = transform.Position.xy,
+                    laserDirection = rawInput.laserDirection,
+                    closestByBalloon = closestHitBalloon,
+                    closestByColourBalloon = closestHitColouredBalloon,
+                    closestByBalloonDistance = math.abs(closestHitDistance),
+                    closestByColourBalloonDistance = math.abs(closestColouredDistance)
+                });
+                missed = false;
             }
             ecb.Playback(state.EntityManager);
             ecb.Dispose();

@@ -51,7 +51,7 @@ namespace HANDFORCE.TCCavy.Aim
                     pos = (int3)(pos * new float3(1000.0f)) / new float3(1000.0f);
                     localTransform.ValueRW.Position = pos;
 
-                    if((rawInput.oldShoot != rawInput.shoot || !rawInput.oldCursorPosition.Equals(pos.xy)))
+                    if((rawInput.oldShoot != rawInput.shoot && !rawInput.oldCursorPosition.Equals(pos.xy)))
                     {
                         DynamicBuffer<CursorLocationBuffer> CLBuffer = SystemAPI.GetSingletonBuffer<CursorLocationBuffer>();
                         Timer time = SystemAPI.GetSingleton<Timer>();
@@ -61,10 +61,10 @@ namespace HANDFORCE.TCCavy.Aim
                             angularMotionAdded = pos.xy,
                             hasFired = rawInput.shoot
                         });
+                        rawInput.oldShoot = rawInput.shoot;
+                        rawInput.oldCursorPosition = pos.xy;
+                        SystemAPI.SetSingleton<RawControllerInput>(rawInput);
                     };
-                    rawInput.oldShoot = rawInput.shoot;
-                    rawInput.oldCursorPosition = pos.xy;
-                    SystemAPI.SetSingleton<RawControllerInput>(rawInput);
 
                
                     //Mouse.current.WarpCursorPosition(new float2(localTransform.ValueRO.Position.x, localTransform.ValueRO.Position.z));

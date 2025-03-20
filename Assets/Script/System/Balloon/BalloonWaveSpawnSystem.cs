@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using HANDFORCE.TCCavy.Balloon.Data;
 using HANDFORCE.TCCavy.Balloon.Data.Buffer;
+using HANDFORCE.TCCavy.Collection.Data;
 using HANDFORCE.TCCavy.General.Data;
 using Unity.Burst;
 using Unity.Collections;
@@ -17,7 +18,7 @@ namespace HANDFORCE.TCCavy.Balloon
     {
         public static Action GameClear;
         private EntityQuery balloonQuery;
-        private Entity parent;
+
         private World transferWorld;
         private int count = 0;
         [BurstCompile]
@@ -34,7 +35,7 @@ namespace HANDFORCE.TCCavy.Balloon
             {
                 foreach(World world in World.All)
                 {
-                    Debug.Log(World.Name);
+                    Debug.Log(world.Name);
                     if(world.Name == "TransferDataWorld")
                     {
                         transferWorld = world;
@@ -42,8 +43,7 @@ namespace HANDFORCE.TCCavy.Balloon
                 }
             }
             
-            if(parent == Entity.Null)
-                parent = SystemAPI.GetSingletonEntity<WaveSettings>();
+            Entity parent = SystemAPI.GetSingletonEntity<WaveSettings>();
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
             if(balloonQuery.IsEmpty || CheckedStateRef.EntityManager.IsComponentEnabled<WaveRequested>(parent))
             {
@@ -55,7 +55,8 @@ namespace HANDFORCE.TCCavy.Balloon
                 {
                     Debug.Log("Entered Result here");
                     SystemAPI.SetComponentEnabled<WaveRequested>(parent, false); 
-                    Entity _entity = CheckedStateRef.EntityManager.CreateEntityQuery(typeof(Timer), typeof(TimeLeftWave)).GetSingletonEntity();
+                    Entity _entity = CheckedStateRef.EntityManager.CreateEntityQuery(typeof(MissedShootBuffer), typeof(ShootBuffer), typeof(CursorLocationBuffer), typeof(BalloonCollectionBuffer)).GetSingletonEntity();
+                    SystemAPI.SetComponentEnabled<Saving>(_entity, true);
                     //SystemAPI.SetComponentEnabled<Result>(_entity, true);
                     GameClear?.Invoke();
                     return;
@@ -90,12 +91,12 @@ namespace HANDFORCE.TCCavy.Balloon
                     }
                     try
                     {
-                        float2 pos = balloonSpawn.location;
+                        //float2 pos = new;
                         CheckedStateRef.EntityManager.SetName(entity,balloonSpawn.balloonType+ " ID: "+balloonSpawn.ID);
                         CheckedStateRef.EntityManager.SetComponentData(entity, new LocalTransform
                         {
-                            Position = new float3(pos.x, pos.y, localTransform.Position.z),
-                            Scale = 100
+                            Position = new float3(-100, -100, localTransform.Position.z),
+                            Scale = 120
                         });
                         CheckedStateRef.EntityManager.AddComponentData(entity, new BalloonData
                         {
@@ -135,6 +136,12 @@ namespace HANDFORCE.TCCavy.Balloon
                 {
                     TimeLeftWave T = SystemAPI.GetSingleton<TimeLeftWave>();
                     T.timeLeft = balloonWaveBuffer.waveTime;
+                    T.start = true;
+                    if(waveSettings.currentWaves == 0)
+                    {
+                        Entity _entity = SystemAPI.GetSingletonEntity<TimeLeftWave>();
+                        SystemAPI.SetComponentEnabled<Reset>(_entity, true);
+                    }
                     waveSettings.currentWaves++; 
                     SystemAPI.SetSingleton<WaveSettings>(waveSettings);
                     SystemAPI.SetSingleton<TimeLeftWave>(T); //Leaving in the <T> to make it easier to read. It does not actually need it.

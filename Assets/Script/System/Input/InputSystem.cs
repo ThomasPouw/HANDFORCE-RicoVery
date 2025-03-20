@@ -20,7 +20,7 @@ public partial class GameInputSystem : SystemBase, PlayerInput_Mapping.IJoyStick
     private float2 m_CursorPosition;
     private bool m_Shoot;
     private bool m_Paused;
-    private LaserDirection m_LaserDirection;
+    private LaserDirection m_LaserDirection = LaserDirection.Up;
     [BurstCompile]
     protected override void OnCreate()
     {

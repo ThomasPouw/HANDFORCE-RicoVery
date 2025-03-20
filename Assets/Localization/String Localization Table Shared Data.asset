@@ -64,6 +64,22 @@ MonoBehaviour:
     m_Key: MainMenu/Canvas/Inner Panel/Main Menu/To TitleScreen/To Settings Text
     m_Metadata:
       m_Items: []
+  - m_Id: 7959351160152064
+    m_Key: MainMenu/Canvas/Inner Panel/Title Screen/Info 1/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959532911927296
+    m_Key: MainMenu/Canvas/Inner Panel/Title Screen/Info 2/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959585294589952
+    m_Key: MainMenu/Canvas/Inner Panel/Title Screen/Info 3/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959769927852032
+    m_Key: MainMenu/Canvas/Inner Panel/Title Screen/Info 4/Text (TMP)
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

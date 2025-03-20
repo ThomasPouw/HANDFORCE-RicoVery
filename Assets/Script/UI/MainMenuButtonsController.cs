@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainMenuButtonsController : MonoBehaviour
 {
-    public GameObject titleScreen;
+    public GameObject controls;
     public GameObject settingsScreen;
     public GameObject levelSelectScreen;
     public GameObject mainScreen;
@@ -16,23 +16,31 @@ public class MainMenuButtonsController : MonoBehaviour
     }*/
     public void ToMainScreen()
     {
-        titleScreen.SetActive(false);
+        controls.SetActive(false);
         settingsScreen.SetActive(false);
         levelSelectScreen.SetActive(false);
         mainScreen.SetActive(true);
     }
     public void ToSettings()
     {
-        titleScreen.SetActive(false);
+        controls.SetActive(false);
         settingsScreen.SetActive(true);
         levelSelectScreen.SetActive(false);
         mainScreen.SetActive(false);
     }
     public void ToLevelSelect()
     {
-        titleScreen.SetActive(false);
+        controls.SetActive(false);
         settingsScreen.SetActive(false);
         levelSelectScreen.SetActive(true);
         mainScreen.SetActive(false);
     }
+    public void ToControls()
+    {
+        controls.SetActive(true);
+        settingsScreen.SetActive(false);
+        levelSelectScreen.SetActive(false);
+        mainScreen.SetActive(false);
+    }
+    
 }

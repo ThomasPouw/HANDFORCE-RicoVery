@@ -17,19 +17,187 @@ MonoBehaviour:
     time: 30
     balloonSpawns:
     - ID: 1
+      balloonType: 32
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: -50
+          y: 50
+        timeBetweenLocations: 2
+      - endLocation:
+          x: -2.5
+          y: 25
+        timeBetweenLocations: 1.75
+      movingPath: []
+    - ID: 2
+      balloonType: 32
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: -40
+          y: 50
+        timeBetweenLocations: 1.25
+      - endLocation:
+          x: -26
+          y: 3.5
+        timeBetweenLocations: 1.75
+      movingPath: []
+    - ID: 3
+      balloonType: 32
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: 50
+          y: 0
+        timeBetweenLocations: 0.75
+      - endLocation:
+          x: 20
+          y: -10
+        timeBetweenLocations: 1
+      - endLocation:
+          x: 20
+          y: 5
+        timeBetweenLocations: 1.25
+      movingPath: []
+    - ID: 4
+      balloonType: 32
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: -40
+          y: -17.5
+        timeBetweenLocations: 0.5
+      - endLocation:
+          x: 0
+          y: -7.5
+        timeBetweenLocations: 1.75
+      movingPath: []
+    - ID: 5
+      balloonType: 32
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: 40
+          y: -12.5
+        timeBetweenLocations: 1.75
+      - endLocation:
+          x: 5
+          y: -12.5
+        timeBetweenLocations: 1.75
+      movingPath: []
+  - ID: 2
+    time: 30
+    balloonSpawns:
+    - ID: 1
+      balloonType: 32
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: -50
+          y: 50
+        timeBetweenLocations: 0.5
+      - endLocation:
+          x: -35
+          y: 10
+        timeBetweenLocations: 0.95
+      - endLocation:
+          x: -10
+          y: 20
+        timeBetweenLocations: 1.4
+      movingPath: []
+    - ID: 2
+      balloonType: 1
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: -49
+          y: 60
+        timeBetweenLocations: 1.75
+      - endLocation:
+          x: -12
+          y: -3.5
+        timeBetweenLocations: 1.75
+      movingPath: []
+    - ID: 3
+      balloonType: 32
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: 50
+          y: 0
+        timeBetweenLocations: 0.75
+      - endLocation:
+          x: 25
+          y: 0
+        timeBetweenLocations: 1
+      - endLocation:
+          x: -15
+          y: -10
+        timeBetweenLocations: 1.25
+      movingPath: []
+    - ID: 4
       balloonType: 4
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: -40
+          y: -17.5
+        timeBetweenLocations: 0.5
+      - endLocation:
+          x: 24
+          y: 24
+        timeBetweenLocations: 1.75
+      movingPath: []
+    - ID: 5
+      balloonType: 32
+      location:
+        x: -100
+        y: -100
+      startPath:
+      - endLocation:
+          x: 40
+          y: -12.5
+        timeBetweenLocations: 1.75
+      - endLocation:
+          x: 5
+          y: -12.5
+        timeBetweenLocations: 1.75
+      movingPath: []
+  - ID: 3
+    time: 30
+    balloonSpawns:
+    - ID: 1
+      balloonType: 32
       location:
         x: 2
         y: -15
       startPath:
       - endLocation:
-          x: 2
-          y: 0
-        timeBetweenLocations: 6
+          x: 70
+          y: 20
+        timeBetweenLocations: 3.5
       - endLocation:
           x: 10
           y: 10
-        timeBetweenLocations: 2
+        timeBetweenLocations: 1.5
       movingPath:
       - endLocation:
           x: 3
@@ -39,29 +207,6 @@ MonoBehaviour:
           x: 21
           y: 4
         timeBetweenLocations: 5
-    - ID: 2
-      balloonType: 2
-      location:
-        x: 2
-        y: 4
-      startPath:
-      - endLocation:
-          x: 2
-          y: 9
-        timeBetweenLocations: 4
-      - endLocation:
-          x: 20
-          y: -5
-        timeBetweenLocations: 4
-      movingPath:
-      - endLocation:
-          x: 345
-          y: 14
-        timeBetweenLocations: 3
-      - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
     - ID: 3
       balloonType: 2
       location:
@@ -70,21 +215,25 @@ MonoBehaviour:
       startPath:
       - endLocation:
           x: 5
-          y: 10
-        timeBetweenLocations: 3
+          y: 100
+        timeBetweenLocations: 4.5
       - endLocation:
           x: 12
           y: 4
         timeBetweenLocations: 5
       movingPath:
       - endLocation:
-          x: 52
-          y: 45
-        timeBetweenLocations: 2
+          x: -10
+          y: -5
+        timeBetweenLocations: 4
       - endLocation:
           x: 6
           y: 6
-        timeBetweenLocations: 5
+        timeBetweenLocations: 3.2
+      - endLocation:
+          x: 12
+          y: 4
+        timeBetweenLocations: 2
     - ID: 4
       balloonType: 8
       location:
@@ -92,13 +241,13 @@ MonoBehaviour:
         y: 1
       startPath:
       - endLocation:
-          x: 35
+          x: 50
           y: 35
-        timeBetweenLocations: 10
+        timeBetweenLocations: 4.2
       - endLocation:
-          x: 2
-          y: 10
-        timeBetweenLocations: 5
+          x: -20
+          y: -20
+        timeBetweenLocations: 2.5
       movingPath:
       - endLocation:
           x: 6
@@ -107,7 +256,11 @@ MonoBehaviour:
       - endLocation:
           x: 6
           y: 4
-        timeBetweenLocations: 10
+        timeBetweenLocations: 6.5
+      - endLocation:
+          x: -20
+          y: -20
+        timeBetweenLocations: 4
     - ID: 6
       balloonType: 1
       location:
@@ -115,15 +268,15 @@ MonoBehaviour:
         y: -10
       startPath:
       - endLocation:
-          x: 0
+          x: 70
           y: 0
-        timeBetweenLocations: 0
+        timeBetweenLocations: 2
       - endLocation:
           x: 0
           y: 0
-        timeBetweenLocations: 0
+        timeBetweenLocations: 5
       movingPath: []
-  - ID: 1
+  - ID: 4
     time: 30
     balloonSpawns:
     - ID: 2
@@ -131,23 +284,43 @@ MonoBehaviour:
       location:
         x: 2
         y: 4
-      startPath: []
+      startPath:
+      - endLocation:
+          x: 50
+          y: 20
+        timeBetweenLocations: 1.2
+      - endLocation:
+          x: -10
+          y: 5
+        timeBetweenLocations: 2
       movingPath: []
     - ID: 3
-      balloonType: 2
+      balloonType: 32
       location:
         x: 20
         y: 1
       startPath:
       - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
+          x: -60
+          y: 10
+        timeBetweenLocations: 2.1
       - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
-      movingPath: []
+          x: -30
+          y: -20
+        timeBetweenLocations: 2
+      movingPath:
+      - endLocation:
+          x: 15
+          y: -20
+        timeBetweenLocations: 4.2
+      - endLocation:
+          x: -7.5
+          y: -15
+        timeBetweenLocations: 2
+      - endLocation:
+          x: -30
+          y: -20
+        timeBetweenLocations: 2
     - ID: 4
       balloonType: 8
       location:
@@ -155,13 +328,13 @@ MonoBehaviour:
         y: 1
       startPath:
       - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
+          x: -20
+          y: -20
+        timeBetweenLocations: 3.3
       - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
+          x: 10
+          y: 25
+        timeBetweenLocations: 2
       movingPath: []
     - ID: 5
       balloonType: 4
@@ -170,13 +343,13 @@ MonoBehaviour:
         y: 10
       startPath:
       - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
+          x: 30
+          y: 45
+        timeBetweenLocations: 1.25
       - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
+          x: 25
+          y: 20
+        timeBetweenLocations: 2
       movingPath: []
     - ID: 6
       balloonType: 1
@@ -185,12 +358,12 @@ MonoBehaviour:
         y: -10
       startPath:
       - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
+          x: -50
+          y: 20
+        timeBetweenLocations: 1.7
       - endLocation:
-          x: 0
-          y: 0
-        timeBetweenLocations: 0
+          x: 10
+          y: -20
+        timeBetweenLocations: 2
       movingPath: []
   SceneNumber: 1

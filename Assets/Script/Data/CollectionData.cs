@@ -43,6 +43,8 @@ namespace HANDFORCE.TCCavy.Collection.Data
         public float closestByColourBalloonDistance;
     }
     [System.Serializable]
+    public struct Saving: IComponentData,IEnableableComponent{}
+    [System.Serializable]
     public struct TempDatabase
     {
         public NativeList<CursorLocationBuffer> cursorLocation;

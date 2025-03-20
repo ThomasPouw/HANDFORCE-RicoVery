@@ -3,13 +3,12 @@ using UnityEngine;
 using Unity.Burst;
 
 using HANDFORCE.TCCavy.Collection.Data;
-using NUnit.Framework.Internal;
 using HANDFORCE.TCCavy.General.Data;
 using Unity.Collections;
-using Unity.Jobs;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
+using System;
+using HANDFORCE.TCCavy.Balloon.Data.Buffer;
 
 namespace HANDFORCE.TCCavy.Writer.LoopSystem
 {
@@ -22,8 +21,9 @@ namespace HANDFORCE.TCCavy.Writer.LoopSystem
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-            Entity entity = state.EntityManager.CreateEntity(typeof(MissedShootBuffer), typeof(ShootBuffer), typeof(CursorLocationBuffer), typeof(BalloonCollectionBuffer));
+            Entity entity = state.EntityManager.CreateEntity(typeof(MissedShootBuffer), typeof(ShootBuffer), typeof(CursorLocationBuffer), typeof(BalloonCollectionBuffer), typeof(Saving));
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
+            SystemAPI.SetComponentEnabled<Saving>(entity, false);
             ecb.SetBuffer<MissedShootBuffer>(entity);
             ecb.SetBuffer<ShootBuffer>(entity);
             ecb.SetBuffer<CursorLocationBuffer>(entity);
@@ -47,6 +47,33 @@ namespace HANDFORCE.TCCavy.Writer.LoopSystem
         {
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
             Entity entity = SystemAPI.GetSingletonEntity<MissedShootBuffer>();
+            if(state.EntityManager.IsComponentEnabled<Saving>(entity))
+            {
+                state.EntityManager.SetComponentEnabled<Saving>(entity, false);
+                World transferWorld = World.DefaultGameObjectInjectionWorld;
+                foreach(World world in World.All)
+                {
+                    Debug.Log(world.Name);
+                    if(world.Name == "TransferDataWorld")
+                    {
+                        transferWorld = world;
+                    }
+                }
+                EntityQuery balloonSpawnQuery = transferWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer), typeof(BalloonMovementBuffer));
+
+                {
+                    balloonSpawnQuery.TryGetSingletonBuffer<BalloonWaveBuffer>(out DynamicBuffer<BalloonWaveBuffer> DynaBalloonWave);
+                    balloonSpawnQuery.TryGetSingletonBuffer<BalloonMovementBuffer>(out DynamicBuffer<BalloonMovementBuffer> DynaBalloonMove);
+                    DynaBalloonWave.Clear();
+                    DynaBalloonMove.Clear();
+                }
+                Save(directory, $"Test {DateTime.Now.Day+" "+DateTime.Now.Month+ " "+DateTime.Now.Year +" "+DateTime.Now.Hour +";"+DateTime.Now.Minute}.json", tempDatabase);
+                
+                ecb.Playback(transferWorld.EntityManager);
+                ecb.Playback(state.EntityManager);
+                ecb.Dispose();
+                return;
+            }
             DynamicBuffer<MissedShootBuffer> missedShootBuffers = SystemAPI.GetSingletonBuffer<MissedShootBuffer>();
             DynamicBuffer<ShootBuffer> shootBuffers = SystemAPI.GetSingletonBuffer<ShootBuffer>();
             DynamicBuffer<CursorLocationBuffer> cursorLocationBuffer = SystemAPI.GetSingletonBuffer<CursorLocationBuffer>();
@@ -98,7 +125,7 @@ namespace HANDFORCE.TCCavy.Writer.LoopSystem
         public void OnDestroy(ref SystemState state)
         {
             Debug.Log("Is destroyed");
-            Save(directory, "Test.json", tempDatabase);
+            //Save(directory, $"Test {DateTime.Now.Day+" "+DateTime.Now.Month+ " "+DateTime.Now.Year +" "+DateTime.Now.Hour +";"+DateTime.Now.Minute}.json", tempDatabase);
             Debug.Log("Saved");
         }
     }

@@ -44,6 +44,13 @@ public class LevelSelected : MonoBehaviour
                 //transferDataWorld.EntityManager.GetBufferTypeHandle<BalloonWaveBuffer>(false);
                 BMBuffer = ECB.AddBuffer<BalloonMovementBuffer>(_entity);
             }
+            else
+            {
+                Entity _entity = transferDataWorld.EntityManager.CreateEntityQuery(typeof(BalloonWaveBuffer), typeof(BalloonMovementBuffer)).GetSingletonEntity();
+                BBuffer = ECB.SetBuffer<BalloonWaveBuffer>(_entity);
+                //transferDataWorld.EntityManager.GetBufferTypeHandle<BalloonWaveBuffer>(false);
+                BMBuffer = ECB.SetBuffer<BalloonMovementBuffer>(_entity);
+            }
             for (int i = 0; i < balloonWaveSpawner.waveSpawns.Count; i++)
             {
                 using(BlobBuilder blobBuilder = new BlobBuilder(Allocator.Temp))
@@ -54,7 +61,7 @@ public class LevelSelected : MonoBehaviour
                     for (int ii = 0; ii < balloonWaveSpawner.waveSpawns[i].balloonSpawns.Count; ii++)
                     {
                         bool moving = false;
-                        if(balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath.Count != 0)
+                        if(balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath.Count > 1)
                         {
                             using(BlobBuilder movementBlobBuilder = new BlobBuilder(Allocator.Temp))
                             {
@@ -67,7 +74,7 @@ public class LevelSelected : MonoBehaviour
                                     balloonMovementBlobArray[iii] = balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].startPath[iii];
                                     Debug.Log(ii+" "+balloonMovementBlobArray[iii].endLocation);
                                 }
-                                Debug.Log("Hello!");
+    
                                 BlobAssetReference<BalloonMovementBlobReference> movementBlobAssetReference = movementBlobBuilder.CreateBlobAssetReference<BalloonMovementBlobReference>(Allocator.Temp);
                                 
                                 BMBuffer.Add(new BalloonMovementBuffer
@@ -78,7 +85,8 @@ public class LevelSelected : MonoBehaviour
                             }
                             //Debug.Log("BMBuffer.Length: "+BMBuffer.Length);
                         }
-                        else{
+                        else
+                        {
                             Debug.LogError($"You forgot to enter in the starting movement of Balloon ID: {balloonWaveSpawner.waveSpawns[i].balloonSpawns[ii].ID}");
                             break;
                         }

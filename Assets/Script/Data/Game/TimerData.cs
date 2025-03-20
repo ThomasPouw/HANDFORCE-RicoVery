@@ -12,8 +12,10 @@ namespace HANDFORCE.TCCavy.General.Data
     }
     public struct TimeLeftWave: IComponentData
     {
+        public bool start;
         public float timeLeft;
     }
+    public struct Reset: IComponentData, IEnableableComponent{}
     public struct Paused: IComponentData, IEnableableComponent{}
     public struct Result: IComponentData, IEnableableComponent{}
 }

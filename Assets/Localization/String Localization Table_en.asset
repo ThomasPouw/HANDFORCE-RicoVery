@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2112625516544
-    m_Localized: Exi
+    m_Localized: Exit
     m_Metadata:
       m_Items: []
   - m_Id: 3012987396096
@@ -59,7 +59,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2862643220783104
-    m_Localized: Back to Title
+    m_Localized: Controls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959351160152064
+    m_Localized: S = Shoot the weapon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959532911927296
+    m_Localized: P = Pausing the Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959585294589952
+    m_Localized: H = Switching Laser Colour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959769927852032
+    m_Localized: Tilt the controller to go horizontal and vertical
     m_Metadata:
       m_Items: []
   references:

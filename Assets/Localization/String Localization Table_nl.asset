@@ -59,7 +59,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2862643220783104
-    m_Localized: Terug naar titel
+    m_Localized: "\rControles"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959351160152064
+    m_Localized: S = Schiet het wapen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959532911927296
+    m_Localized: P = Pauzeer het spel.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959585294589952
+    m_Localized: H =  Verander van laser kleur.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959769927852032
+    m_Localized: Kantel de controller om horizontaal en verticaal te gaan.
     m_Metadata:
       m_Items: []
   references:
